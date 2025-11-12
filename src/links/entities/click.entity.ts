@@ -10,7 +10,8 @@ import { Link } from './link.entity';
 
 @Entity('clicks')
 export class Click {
-  @PrimaryGeneratedColumn('uuid') id: string;
+ @PrimaryGeneratedColumn()
+  id: number;
   @ManyToOne(() => Link)
   @JoinColumn({ name: 'linkId' })
   link: Link;

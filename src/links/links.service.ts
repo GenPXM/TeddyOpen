@@ -39,7 +39,7 @@ export class LinksService {
     throw new BadRequestException('Could not generate unique code');
   }
 
-  async shorten(dto: ShortenDto, ownerId?: string | null) {
+  async shorten(dto: ShortenDto, ownerId?: number | null) {
     const code = await this.generateUniqueCode();
     const link = this.links.create({
       originUrl: dto.originUrl,
@@ -59,12 +59,12 @@ export class LinksService {
     return link;
   }
 
-  async registerClick(linkId: string) {
+  async registerClick(linkId: number) {
     await this.links.increment({ id: linkId }, 'clicks', 1);
-    await this.clicks.insert({ linkId });
+    await this.clicks.insert({ linkId: linkId.toString() });
   }
 
-  async listByOwner(ownerId: string, page = 1, pageSize = 20) {
+  async listByOwner(ownerId: number, page = 1, pageSize = 20) {
     const [items, total] = await this.links.findAndCount({
       where: { ownerId, deletedAt: IsNull() },
       order: { createdAt: 'DESC' },
@@ -88,7 +88,7 @@ export class LinksService {
     };
   }
 
-  async update(ownerId: string, id: string, dto: UpdateLinkDto) {
+  async update(ownerId: number, id: number, dto: UpdateLinkDto) {
     const link = await this.links.findOne({
       where: { id, deletedAt: IsNull() },
     });
@@ -100,7 +100,7 @@ export class LinksService {
     return { id: link.id, code: link.code, originUrl: link.originUrl };
   }
 
-  async softDelete(ownerId: string, id: string) {
+  async softDelete(ownerId: number, id: number) {
     const link = await this.links.findOne({
       where: { id, deletedAt: IsNull() },
     });
