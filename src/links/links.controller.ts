@@ -12,7 +12,7 @@ export class LinksController {
     @Body() dto: ShortenDto,
     @Req() req: Request & { user?: { userId: string } },
   ) {
-    const ownerId = req.user?.userId ?? null;
+    const ownerId = req.user?.userId ? Number(req.user.userId) : null;
     return this.service.shorten(dto, ownerId);
   }
 }

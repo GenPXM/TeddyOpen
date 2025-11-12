@@ -25,7 +25,7 @@ export class MyLinksController {
     @Query('pageSize') pageSize = 20,
   ) {
     return this.service.listByOwner(
-      user.userId,
+      Number(user.userId),
       Number(page),
       Number(pageSize),
     );
@@ -37,11 +37,11 @@ export class MyLinksController {
     @Param('id') id: string,
     @Body() dto: UpdateLinkDto,
   ) {
-    return this.service.update(user.userId, id, dto);
+    return this.service.update(Number(user.userId), Number(id), dto);
   }
 
   @Delete(':id')
   async remove(@CurrentUser() user: { userId: string }, @Param('id') id: string) {
-    return this.service.softDelete(user.userId, id);
+    return this.service.softDelete(Number(user.userId), Number(id));
   }
 }
