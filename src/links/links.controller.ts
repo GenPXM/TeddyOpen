@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { LinksService } from '../links/links.service';
 import { ShortenDto } from './dto/shorten.dto';
 import { Request } from 'express';
@@ -9,6 +9,7 @@ import {
   ApiResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
+import { OptionalJwtAuthGuard } from 'src/common/guards/optional-jwt-auth.guard';
 
 @ApiTags('Links')
 @Controller()
@@ -16,6 +17,8 @@ export class LinksController {
   constructor(private readonly service: LinksService) {}
 
   @Post('shorten')
+  @UseGuards(OptionalJwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Encurtar uma URL',
     description:

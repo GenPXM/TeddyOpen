@@ -4,7 +4,7 @@ import { DataSourceOptions } from 'typeorm';
 
 export const ormConfigAsync: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule.forRoot({ isGlobal: true })],
-  useFactory: async () => {
+  useFactory: () => {
     const ssl = process.env.DB_SSL === 'true';
     return {
       type: 'postgres',

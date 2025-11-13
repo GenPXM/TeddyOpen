@@ -61,7 +61,7 @@ export class LinksService {
 
   async registerClick(linkId: number) {
     await this.links.increment({ id: linkId }, 'clicks', 1);
-    await this.clicks.insert({ linkId: linkId.toString() });
+    await this.clicks.insert({ linkId });
   }
 
   async listByOwner(ownerId: number, page = 1, pageSize = 20) {

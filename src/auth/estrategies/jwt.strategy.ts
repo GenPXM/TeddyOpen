@@ -12,7 +12,7 @@ interface JwtPayload {
   exp?: number;
 }
 
-// ✅ Extractor tipado corretamente — elimina “unsafe assignment”
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const bearerTokenExtractor = ((req: Request | undefined) => {
   const authHeader = req?.headers?.authorization;
   if (typeof authHeader !== 'string') return null;
@@ -23,14 +23,15 @@ const bearerTokenExtractor = ((req: Request | undefined) => {
 @Injectable()
 export class JwtStrategy extends PassportStrategy(JwtStrategyBase) {
   constructor(private readonly config: ConfigService) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     super({
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       jwtFromRequest: bearerTokenExtractor,
       secretOrKey: config.get<string>('JWT_SECRET') ?? 'default_secret',
       ignoreExpiration: false,
     });
   }
 
-  // ✅ Sem “async” porque não há await — elimina require-await
   validate(payload: JwtPayload) {
     return {
       userId: payload.sub,
