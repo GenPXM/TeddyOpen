@@ -15,6 +15,8 @@ export class Click {
   @ManyToOne(() => Link)
   @JoinColumn({ name: 'linkId' })
   link: Link;
-  @Column() linkId: string;
+  @Column({ type: 'int' })
+  linkId: number;
+
   @CreateDateColumn() createdAt: Date;
 }
