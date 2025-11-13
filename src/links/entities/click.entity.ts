@@ -10,11 +10,11 @@ import { Link } from './link.entity';
 
 @Entity('clicks')
 export class Click {
- @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn()
   id: number;
   @ManyToOne(() => Link)
   @JoinColumn({ name: 'linkId' })
   link: Link;
-  @Column('uuid') linkId: string;
+  @Column() linkId: string;
   @CreateDateColumn() createdAt: Date;
 }
