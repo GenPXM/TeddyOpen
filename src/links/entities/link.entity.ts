@@ -22,7 +22,7 @@ export class Link {
   @Column({ type: 'int', default: 0 })
   clicks: number;
 
-  @Column({ name: 'owner_id', type: 'int', nullable: true })
+  @Column({ type: 'int', nullable: true })
   ownerId?: number | null;
 
   @CreateDateColumn()
