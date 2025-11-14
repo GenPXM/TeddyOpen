@@ -6,8 +6,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   BeforeInsert,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Tenant } from '../../tenants/entities/tenant.entity';
 
 @Entity('users')
 export class User {
@@ -20,6 +23,11 @@ export class User {
 
   @Column({ type: 'varchar', length: 255 })
   password: string;
+
+  @ManyToOne(() => Tenant)
+  @JoinColumn({ name: 'tenantId' })
+  tenant: Tenant;
+
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

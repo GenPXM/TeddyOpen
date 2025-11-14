@@ -53,9 +53,10 @@ export class LinksController {
   @ApiBearerAuth()
   async shorten(
     @Body() dto: ShortenDto,
-    @Req() req: Request & { user?: { userId: string } },
+    @Req() req: Request & { user?: { userId: string; tenantId: number } },
   ) {
+    const tenantId = req.user?.tenantId ?? 1;
     const ownerId = req.user?.userId ? Number(req.user.userId) : null;
-    return this.service.shorten(dto, ownerId);
+    return this.service.shorten(dto, tenantId, ownerId);
   }
 }

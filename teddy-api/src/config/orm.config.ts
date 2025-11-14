@@ -1,6 +1,10 @@
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { DataSourceOptions } from 'typeorm';
+import { User } from '../auth/entities/user.entity';
+import { Link } from '../links/entities/link.entity';
+import { Click } from '../links/entities/click.entity';
+import { Tenant } from '../tenants/entities/tenant.entity';
 
 export const ormConfigAsync: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule.forRoot({ isGlobal: true })],
@@ -17,6 +21,7 @@ export const ormConfigAsync: TypeOrmModuleAsyncOptions = {
       synchronize: false,
       ssl: ssl ? { rejectUnauthorized: false } : false,
       logging: false,
+      entities: [User, Link, Click, Tenant],
     } as DataSourceOptions;
   },
 };

@@ -4,6 +4,6 @@ export const CurrentUser = createParamDecorator(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const req = ctx.switchToHttp().getRequest();
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return req.user as { sub: string; email: string } | undefined;
+    return req.user as { sub: string; email: string; tenantId: number; } | undefined;
   },
 );
