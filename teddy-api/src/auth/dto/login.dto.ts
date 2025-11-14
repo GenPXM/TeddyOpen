@@ -15,4 +15,11 @@ export class LoginDto {
   })
   @IsString()
   password: string;
+
+  @ApiProperty({
+    example: 'teddy',
+    description: 'Slug do tenant ao qual o usuário pertence',
+  })
+  @IsString()
+  tenantSlug: string;
 }
