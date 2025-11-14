@@ -28,6 +28,11 @@ export class User {
   @JoinColumn({ name: 'tenantId' })
   tenant: Tenant;
 
+  @Column({ type: 'varchar', length: 6, nullable: true })
+  resetToken?: string | null;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  resetTokenExpiresAt?: Date | null;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
