@@ -8,10 +8,12 @@ import { JwtStrategy } from '../auth/estrategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { OptionalJwtAuthGuard } from 'src/common/guards/optional-jwt-auth.guard';
 import { Tenant } from '../tenants/entities/tenant.entity';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Tenant]),
+    MailModule,
     JwtModule.registerAsync({
       global: true,
       imports: [ConfigModule],

@@ -5,6 +5,7 @@ import { ormConfigAsync } from './config/orm.config';
 import { AuthModule } from './auth/auth.module';
 import { LinksModule } from './links/links.module';
 import { TenantsModule } from './tenants/tenants.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { TenantsModule } from './tenants/tenants.module';
     TypeOrmModule.forRootAsync(ormConfigAsync),
     TenantsModule,
     AuthModule,
+    MailModule,
     LinksModule,
 
   ],
