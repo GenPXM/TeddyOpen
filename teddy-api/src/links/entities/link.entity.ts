@@ -25,6 +25,9 @@ export class Link {
   @Column({ type: 'int', nullable: true })
   ownerId?: number | null;
 
+  @Column({ name: 'tenantId', type: 'int', nullable: true })
+  tenantId?: number | null;
+
   @CreateDateColumn()
   createdAt: Date;
 

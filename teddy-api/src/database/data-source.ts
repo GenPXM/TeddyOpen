@@ -3,6 +3,7 @@ import { DataSource } from 'typeorm';
 import { User } from '../auth/entities/user.entity';
 import { Link } from '../links/entities/link.entity';
 import { Click } from '../links/entities/click.entity';
+import { Tenant } from '../tenants/entities/tenant.entity';
 
 export default new DataSource({
   type: 'postgres',
@@ -13,7 +14,7 @@ export default new DataSource({
   database: process.env.DB_NAME, 
   synchronize: false,
   logging: false,
-  entities: [User, Link, Click],
+  entities: [User, Link, Click, Tenant],
   migrations: ['src/migrations/*.ts'],
   ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
 });

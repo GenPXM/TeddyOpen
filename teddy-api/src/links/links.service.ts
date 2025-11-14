@@ -39,12 +39,13 @@ export class LinksService {
     throw new BadRequestException('Could not generate unique code');
   }
 
-  async shorten(dto: ShortenDto, ownerId?: number | null) {
+  async shorten(dto: ShortenDto, tenantId: number, ownerId?: number | null) {
     const code = await this.generateUniqueCode();
     const link = this.links.create({
       originUrl: dto.originUrl,
       code,
       ownerId: ownerId ?? null,
+      tenantId,
     });
     await this.links.save(link);
     const shortUrl = `${process.env.APP_BASE_URL}/${code}`;
@@ -64,9 +65,14 @@ export class LinksService {
     await this.clicks.insert({ linkId });
   }
 
-  async listByOwner(ownerId: number, page = 1, pageSize = 20) {
+  async listByOwner(
+    ownerId: number,
+    tenantId: number,
+    page = 1,
+    pageSize = 20,
+  ) {
     const [items, total] = await this.links.findAndCount({
-      where: { ownerId, deletedAt: IsNull() },
+      where: { tenantId, ownerId, deletedAt: IsNull() },
       order: { createdAt: 'DESC' },
       skip: (page - 1) * pageSize,
       take: pageSize,
@@ -88,9 +94,14 @@ export class LinksService {
     };
   }
 
-  async update(ownerId: number, id: number, dto: UpdateLinkDto) {
+  async update(
+    ownerId: number,
+    tenantId: number,
+    id: number,
+    dto: UpdateLinkDto,
+  ) {
     const link = await this.links.findOne({
-      where: { id, deletedAt: IsNull() },
+      where: { id, tenantId, deletedAt: IsNull() },
     });
     if (!link) throw new NotFoundException('Link not found');
     if (link.ownerId !== ownerId) throw new ForbiddenException();
@@ -100,9 +111,9 @@ export class LinksService {
     return { id: link.id, code: link.code, originUrl: link.originUrl };
   }
 
-  async softDelete(ownerId: number, id: number) {
+  async softDelete(ownerId: number, tenantId: number, id: number) {
     const link = await this.links.findOne({
-      where: { id, deletedAt: IsNull() },
+      where: { id, tenantId, deletedAt: IsNull() },
     });
     if (!link) throw new NotFoundException('Link not found');
     if (link.ownerId !== ownerId) throw new ForbiddenException();

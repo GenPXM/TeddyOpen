@@ -10,6 +10,7 @@ interface JwtPayload {
   email: string;
   iat?: number;
   exp?: number;
+  tenantId?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -31,11 +32,11 @@ export class JwtStrategy extends PassportStrategy(JwtStrategyBase) {
       ignoreExpiration: false,
     });
   }
-
   validate(payload: JwtPayload) {
     return {
       userId: payload.sub,
       email: payload.email,
+      tenantId: payload.tenantId,
     };
   }
 }
